@@ -1,0 +1,95 @@
+
+>>> from dojo_ninjas_app.models import *
+
+Query: Create 3 new dojos
+
+>>> dojuno = Dojo.objects.create(name='DojUno',city='Cincinatti', state='OH')
+>>> dojdos = Dojo.objects.create(name='DojDos',city='Ft. Lauderdale', state='FL')
+>>> dojtres = Dojo.objects.create(name='DojTres',city='Bellevue', state='WA')
+
+Query: Delete the 3 dojos you just created
+
+>>> dojuno.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+>>> dojdos.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+>>> dojtres.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+
+Query: Create 3 more dojos
+
+>>> jerseydoj = Dojo.objects.create(name='JerseyDojo',city='South Orange', state='NJ')
+>>> camdojo = Dojo.objects.create(name='PatsDojo',city='Cambridge', state='MA')
+>>> cardtemple = Dojo.objects.create(name='CardinalTemple',city='Pheonix', state='AZ')
+
+Query: Create 3 ninjas that belong to the first dojo
+
+>>> ninja1 = Ninja.objects.create(first_name='Susie', last_name='Hightower', dojo=jerseydoj)
+>>> ninja2 = Ninja.objects.create(first_name='Mark', last_name='Sanchez', dojo=jerseydoj)
+>>> ninja3 = Ninja.objects.create(first_name='Erin', last_name='Rodgers', dojo=jerseydoj)
+
+Query: Create 3 ninjas that belong to the second dojo
+
+>>> ninja4 = Ninja.objects.create(first_name='Rachel', last_name='Greene', dojo=camdojo)
+>>> ninja5 = Ninja.objects.create(first_name='Monica', last_name='Geller', dojo=camdojo)
+>>> ninja6 = Ninja.objects.create(first_name='Joseph', last_name='Tribiani', dojo=camdojo)
+
+Query: Create 3 ninjas that belong to the third dojo
+
+>>> ninja7 = Ninja.objects.create(first_name='Pheobe', last_name='Buffet', dojo=cardtemple)
+>>> ninja8 = Ninja.objects.create(first_name='Chenandeler', last_name='Bong', dojo=cardtemple)
+>>> ninja9 = Ninja.objects.create(first_name='Emma', last_name='Geller-Greene', dojo=cardtemple)
+
+Query: Retrieve all the ninjas from the first dojo
+
+>>> print(jerseydoj.ninjas.all())
+<QuerySet [<Ninja: Ninja object (1)>, <Ninja: Ninja object (2)>, <Ninja: Ninja object (3)>]>
+>>> jerseydoj.ninjas.all()
+<QuerySet [<Ninja: Ninja object (1)>, <Ninja: Ninja object (2)>, <Ninja: Ninja object (3)>]>
+
+Query: Retrieve all the ninjas from the last dojo
+
+>>> cardtemple.ninjas.all()
+<QuerySet [<Ninja: Ninja object (7)>, <Ninja: Ninja object (8)>, <Ninja: Ninja object (9)>]>
+
+Query: Retrieve the last ninja's dojo
+
+>>> print(ninja9.dojo)
+Dojo object (6)
+>>> print(ninja9.dojo.name)
+CardinalTemple
+>>> 
+KeyboardInterrupt
+>>> quit()
+
+Create and run the migration files to update the table in your database. If needed, provide a default value of "old dojo"
+
+(djangoPy3Env) christiecaiano@Christies-MBP dojo_ninjas_proj % python manage.py makemigratons
+You are trying to add a non-nullable field 'desc' to dojo without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> 'old dojo'
+Migrations for 'dojo_ninjas_app':
+  dojo_ninjas_app/migrations/0002_dojo_desc.py
+    - Add field desc to dojo
+(djangoPy3Env) christiecaiano@Christies-MBP dojo_ninjas_proj % python manage.py migrate 
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, dojo_ninjas_app, sessions
+Running migrations:
+  Applying dojo_ninjas_app.0002_dojo_desc... OK
+(djangoPy3Env) christiecaiano@Christies-MBP dojo_ninjas_proj % python manage.py shell  
+Python 3.9.2 (default, Feb 24 2021, 13:30:36) 
+[Clang 12.0.0 (clang-1200.0.32.29)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+
+Query: Create a new dojo
+
+>>> from dojo_ninjas_app.models import *
+>>> newest_dojo = Dojo.objects.create(name='Packers Dojo',city='Green Bay', state='WI',desc='Go Packers')
+>>> 
